@@ -21,35 +21,35 @@
 // ============================================
 
 // TODO: Reemplaza "Mi Dominio" con el nombre de tu dominio
-const DOMAIN_NAME = "Mi Dominio";
+const DOMAIN_NAME = "Nicolasse";
 
 // TODO: Cambia "Nombre del elemento" por algo de tu dominio
 // Ejemplos con dominios no asignables:
 //   Planetario → "Sistema Solar en 3D"
 //   Acuario    → "Tiburón Ballena"
 //   Museo      → "La Gioconda (réplica)"
-const itemName = "Nombre del elemento";
+const itemName = "Sofa moderno";
 
 // TODO: Agrega una categoría, tipo o descripción corta (string)
 // Ejemplos con dominios no asignables:
 //   Planetario → showType = "Función inmersiva"
 //   Acuario    → habitat = "Océano Pacífico"
 //   Museo      → artStyle = "Renacimiento"
-const itemCategory = "Categoría del elemento";
+const itemCategory = "Dormitorio";
 
 // TODO: Agrega un número relevante a tu dominio (integer o decimal)
 // Ejemplos con dominios no asignables:
 //   Planetario → capacity = 250
 //   Acuario    → tankVolume = 2_500_000
 //   Museo      → estimatedValue = 4_800_000
-const itemQuantity = 0; // reemplaza 0 con el número adecuado
+const itemQuantity = 25; // reemplaza 0 con el número adecuado
 
 // TODO: Agrega un boolean con prefijo semántico (is/has/can/should)
 // Ejemplos con dominios no asignables:
 //   Planetario  → isOpen = true
 //   Acuario     → isEndangered = false
 //   Museo       → isOnDisplay = true
-const isItemAvailable = false; // reemplaza con algo de tu dominio
+const isItemAvailable = true; // reemplaza con algo de tu dominio
 
 // TODO: Declara un valor null que signifique "no asignado aún"
 // en tu dominio
@@ -75,7 +75,10 @@ console.log(`Nombre:    ${itemName}`);
 console.log(`Categoría: ${itemCategory}`);
 // TODO: Agrega un console.log para itemQuantity
 // TODO: Agrega un console.log para isItemAvailable
+console.log(`Precio: ${itemQuantity}`);
+console.log(`Disponible: ${isItemAvailable}`);
 console.log("");
+
 
 
 // ============================================
@@ -87,6 +90,8 @@ console.log("--- Tipos de datos ---");
 // Ejemplo: console.log("typeof itemName:    ", typeof itemName);
 console.log("typeof itemName:     ", typeof itemName);
 // TODO: Agrega typeof para otras 2 variables
+console.log("typeof itemQuantity: ", typeof itemQuantity);
+console.log("typeof isItemAvailable:", typeof isItemAvailable);
 console.log("");
 
 
@@ -107,6 +112,13 @@ console.log("--- Conversiones ---");
 // console.log("typeof (convertido):", typeof priceAsText);
 
 // TODO: Agrega tu conversión aquí
+const priceAsNumber = Number(itemPrice);
+
+console.log("Precio original:", itemPrice);
+console.log("typeof original:", typeof itemPrice);
+
+console.log("Precio convertido:", priceAsNumber);
+console.log("typeof convertido:", typeof priceAsNumber);
 
 console.log("");
 
@@ -123,6 +135,8 @@ console.log("--- Valor nulo ---");
 // console.log("¿Es null?:", pendingValue === null);    // true
 console.log("Valor pendiente:", pendingValue);
 // TODO: Agrega typeof y la verificación === null
+console.log("typeof null:", typeof pendingValue);
+console.log("¿Es null?:", pendingValue === null); 
 console.log("");
 
 
