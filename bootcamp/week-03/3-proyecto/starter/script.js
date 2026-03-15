@@ -22,8 +22,17 @@
 //   Museo:        ADULT_TICKET = 20_000, GUIDED_TOUR = 15_000
 //   Zoológico:    FOOD_COST_PER_DAY = 500_000, MAX_VISITORS = 800
 //   Observatorio: SESSION_DURATION = 90, TICKET_PRICE = 18_000
+// TODO: Reemplazar con tus constantes
 
-// const EXAMPLE_CONSTANT = 0; // TODO: Reemplazar con tus constantes
+ const SOFA_PRICE = 900000; 
+const MAX_SOFAS = 50
+const BED_PRICE = 750000; 
+const MAX_BEDS = 40
+const TABLE_PRICE = 300000; 
+const MAX_TABLES = 60
+const CHAIR_PRICE = 150000; 
+const MAX_CHAIRS = 30
+
 
 // ============================================
 // SECCIÓN 2: Operaciones aritméticas
@@ -34,49 +43,80 @@ console.log("=== Operaciones básicas ===");
 // Usa: +, -, *, /, %, **
 // Etiqueta cada resultado con console.log()
 
-// Ejemplo con dominio Planetario (NO copiar):
-// const ticketPrice = 12_000;
-// const attendees = 38;
-// const totalRevenue = ticketPrice * attendees;
-// console.log("Ingresos función:", totalRevenue);
-// const remainingSeats = 45 - attendees;
-// console.log("Asientos disponibles:", remainingSeats);
+const sofasSold = 3;
+const bedsSold = 2;
+const tablesSold = 1;
+const chairsSold = 5;
 
-console.log("");
+const sofaRevenue = SOFA_PRICE * sofasSold;
+console.log("Ingresos por sofás:", sofaRevenue);
+
+const bedRevenue = BED_PRICE * bedsSold;
+console.log("Ingresos por camas:", bedRevenue);
+
+const tableRevenue = TABLE_PRICE * tablesSold;
+console.log("Ingresos por mesas:", tableRevenue);
+
+const chairRevenue = CHAIR_PRICE * chairsSold;
+console.log("Ingresos por sillas:", chairRevenue);
+
+const totalRevenue = sofaRevenue + bedRevenue + tableRevenue + chairRevenue;
+console.log("Ingresos totales muebles:", totalRevenue);
+
+const discount = 500000;
+const finalPrice = totalRevenue - discount;
+console.log("Total con descuento:", finalPrice);
+
+const totalItems = sofasSold + bedsSold + tablesSold + chairsSold;
+const averagePrice = totalRevenue / totalItems;
+console.log("Precio promedio por producto:", averagePrice);
 
 // ============================================
 // SECCIÓN 3: Asignación compuesta
 // ============================================
 console.log("=== Asignación compuesta ===");
 
-// TODO: Usa +=, -=, *=, /= para actualizar valores acumulados
-// Muestra el valor antes y después de cada operación
+let totalVentas = 0;
 
-// Ejemplo (NO copiar):
-// let runningTotal = 0;
-// runningTotal += 25_000;
-// console.log("Tras primer item:", runningTotal);
-// runningTotal += 18_000;
-// console.log("Tras segundo item:", runningTotal);
-// runningTotal *= 0.90; // descuento del 10%
-// console.log("Con descuento:", runningTotal);
+console.log("Total inicia: ", totalVentas);
 
-console.log("");
+totalVentas += SOFA_PRICE;
+console.log("Despues de vender un sofa: ", totalVentas);
+
+totalVentas += BED_PRICE;
+console.log("Después de vender una cama:", totalVentas);
+
+totalVentas += TABLE_PRICE;
+console.log("Después de vender una mesa:", totalVentas);
+
+totalVentas += CHAIR_PRICE;
+console.log("Después de vender una silla:", totalVentas);
+
+totalVentas -= 50000;
+console.log("Después de aplicar descuento:", totalVentas);
+
+totalVentas *= 1.19;
+console.log("Después de aplicar IVA:", totalVentas);
+
+totalVentas /= 2;
+console.log("Promedio por cliente:", totalVentas);
 
 // ============================================
 // SECCIÓN 4: Comparación estricta
 // ============================================
 console.log("=== Validaciones con === ===");
 
-// TODO: Valida condiciones usando === y operadores de orden
-// NUNCA uses == (penalización en la rúbrica)
+const soldThreeSofas = sofasSold === 3;
+console.log("¿Se vendieron exactamente 3 sofás?", soldThreeSofas);
 
-// Ejemplo (NO copiar):
-// const daysLate = 5;
-// const isOnTime = daysLate === 0;
-// console.log("¿Entregado a tiempo?", isOnTime);
-// const hasFine = daysLate > 0;
-// console.log("¿Tiene multa?", hasFine);
+const manyChairs = chairsSold > 10;
+console.log("¿Se vendieron más de 10 sillas?", manyChairs);
+
+const reachedMaxChairs = chairsSold === MAX_CHAIRS;
+console.log("¿Se alcanzó el máximo de sillas?", reachedMaxChairs);
+
+const chairsAvailable = chairsSold < MAX_CHAIRS;
+console.log("¿Aún quedan sillas disponibles?", chairsAvailable);
 
 console.log("");
 
@@ -85,14 +125,16 @@ console.log("");
 // ============================================
 console.log("=== Condiciones lógicas ===");
 
-// TODO: Combina condiciones con &&, ||, !
-// Al menos una condición con && y una con ||
+const isMember = true;
 
-// Ejemplo (NO copiar):
-// const isMember = true;
-// const purchaseAmount = 150_000;
-// const qualifiesForDiscount = isMember && purchaseAmount >= 100_000;
-// console.log("¿Descuento aplicable?", qualifiesForDiscount);
+const highSales = sofasSold > 2 && chairsSold > 2;
+console.log("¿Se vendieron muchos sofás y sillas?", highSales);
+
+const popularProduct = sofasSold > 5 || chairsSold > 5;
+console.log("¿Algún producto tuvo muchas ventas?", popularProduct);
+
+const qualifiesDiscount = isMember && totalVentas > 1000000;
+console.log("¿Aplica descuento especial?", qualifiesDiscount);
 
 console.log("");
 
@@ -101,7 +143,13 @@ console.log("");
 // ============================================
 console.log("=== Resumen ===");
 
-// TODO: Muestra un resumen con los valores más importantes
-// calculados en las secciones anteriores
+console.log("Ingresos por sofás:", sofaRevenue);
+console.log("Ingresos por camas:", bedRevenue);
+console.log("Ingresos por mesas:", tableRevenue);
+console.log("Ingresos por sillas:", chairRevenue);
+
+console.log("Total de ingresos:", totalRevenue);
+console.log("Total con descuento:", finalPrice);
+console.log("Promedio por producto:", averagePrice);
 
 console.log("");
