@@ -112,10 +112,10 @@ console.log("--- Conversiones ---");
 // console.log("typeof (convertido):", typeof priceAsText);
 
 // TODO: Agrega tu conversión aquí
-const priceAsNumber = Number(itemPrice);
+const priceAsNumber = Number(itemQuantity);
 
-console.log("Precio original:", itemPrice);
-console.log("typeof original:", typeof itemPrice);
+console.log("Precio original:", itemQuantity);
+console.log("typeof original:", typeof itemQuantity);
 
 console.log("Precio convertido:", priceAsNumber);
 console.log("typeof convertido:", typeof priceAsNumber);
