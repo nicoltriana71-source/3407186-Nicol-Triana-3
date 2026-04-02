@@ -19,11 +19,11 @@
 
 // TODO: Reemplaza con el nombre de tu dominio
 // Ejemplos: "Biblioteca", "Farmacia", "Gimnasio", "Restaurante"
-const DOMAIN_NAME = "Mi Catálogo";
+const DOMAIN_NAME = "Nicolasse";
 
 // TODO: Reemplaza con el nombre del tipo de elemento
 // Ejemplos: "libros", "medicamentos", "equipos", "platillos"
-const VALUE_LABEL = "elementos";
+const VALUE_LABEL = "muebles";
 
 // ============================================
 // DATOS DEL CATÁLOGO
@@ -39,11 +39,59 @@ const VALUE_LABEL = "elementos";
 
 const items = [
   // TODO: Objeto 1
+  {
+    id: 1,
+    name: "Sofá moderno",
+    price: 860000,
+    inStock: true,
+    material: "cuero",
+    color: "gris"
+  },
   // TODO: Objeto 2
+  {
+    id: 2,
+    name: "Mesa de comedor",
+    price: 740000,
+    inStock: true,
+    size: "doble",
+    hasStorage: true
+  },
   // TODO: Objeto 3
+   {
+    id: 3,
+    name: "Cama queen",
+    price: 1500000,
+    inStock: false,
+    material: "metal",
+    shape: "rectangular"
+  },
   // TODO: Objeto 4
+  {
+    id: 4,
+    name: "Espejo de baño",
+    price: 120000,
+    inStock: true,
+    adjustable: true,
+    color: "negro"
+  },
   // TODO: Objeto 5
+  {
+    id: 5,
+    name: "Sillon individual",
+    price: 320000,
+    inStock: true,
+    energySaving: true,
+    color: "negro"
+  },
   // TODO: Objeto 6
+  {
+    id: 6,
+    name: "Estantería de madera",
+    price: 400000,
+    inStock: false,
+    shelves: 5,
+    material: "metal",
+  },
 ];
 
 // ============================================
@@ -58,6 +106,9 @@ const inspectItem = (item) => {
   console.log(`\n📋 Detalle de: ${item.name}`);
   // TODO: Usar Object.entries() + forEach para imprimir cada clave y valor
   // Alinear las claves con padEnd para formato de tabla
+  Object.entries(item).forEach(([key, value]) => {
+    console.log(`${key.padEnd(15)} : ${value}`);
+  });
 };
 
 /**
@@ -68,6 +119,23 @@ const calculateStats = (numericKey) => {
   // TODO: Usar Object.values() sobre el array de valores numéricos
   // Calcular: total, promedio, máximo, mínimo
   // Imprimir los resultados
+  const values = items
+    .map(item => item[numericKey])
+    .filter(value => typeof value === "number");
+    if (values.length === 0) {
+    console.log(`⚠️ No hay valores numéricos para "${numericKey}"`);
+    return;
+  }
+  const numericValues = Object.values(values);
+  const total = numericValues.reduce((acc, val) => acc + val, 0);
+  const promedio = total / numericValues.length;
+  const max = Math.max(...numericValues);
+  const min = Math.min(...numericValues)
+  console.log(`\n📊 Estadísticas para: ${numericKey}`);
+  console.log(`Total     : ${total}`);
+  console.log(`Promedio  : ${promedio.toFixed(2)}`);
+  console.log(`Máximo    : ${max}`);
+  console.log(`Mínimo    : ${min}`);
 };
 
 // ============================================
@@ -84,6 +152,33 @@ const showWithOptionals = (item) => {
   // TODO: Mostrar propiedades básicas siempre
   // TODO: Usar Object.hasOwn() para verificar propiedades opcionales
   //       y mostrarlas solo si existen
+  console.log(`ID        : ${item.id}`);
+  console.log(`Precio    : ${item.price}`);
+  console.log(`Disponible: ${item.inStock}`);
+
+    if (Object.hasOwn(item, "material")) {
+    console.log(`Material  : ${item.material}`);
+  }
+
+  if (Object.hasOwn(item, "color")) {
+    console.log(`Color     : ${item.color}`);
+  }
+
+  if (Object.hasOwn(item, "size")) {
+    console.log(`Tamaño    : ${item.size}`);
+  }
+
+  if (Object.hasOwn(item, "style")) {
+    console.log(`Estilo    : ${item.style}`);
+  }
+
+  if (Object.hasOwn(item, "shelves")) {
+    console.log(`Estantes  : ${item.shelves}`);
+  }
+
+  if (Object.hasOwn(item, "wallMount")) {
+    console.log(`Montaje   : ${item.wallMount}`);
+  }
 };
 
 // ============================================
@@ -98,6 +193,11 @@ const printAllProperties = (item) => {
   console.log(`\n🔍 Propiedades de "${item.name}":`);
   // TODO: Usar for...in + Object.hasOwn() para recorrer propiedades propias
   // Imprimir cada clave y su valor
+  for (const key in item) {
+     if (Object.hasOwn(item, key)) {
+      console.log(`${key.padEnd(15)} : ${item[key]}`);
+    }
+  }
 };
 
 // ============================================
@@ -113,7 +213,7 @@ const printAllProperties = (item) => {
 const updateItem = (item, changes) => {
   // TODO: Retornar un nuevo objeto usando spread + changes
   // El objeto original NO debe modificarse
-  return {};
+  return { ...item, ...changes };
 };
 
 // ============================================
@@ -126,7 +226,7 @@ const updateItem = (item, changes) => {
  */
 const getAvailable = () => {
   // TODO: Usar filter() por la propiedad booleana de tu dominio
-  return [];
+  return items.filter(item => item.inStock === true);
 };
 
 /**
@@ -136,7 +236,7 @@ const getAvailable = () => {
  */
 const findById = (id) => {
   // TODO: Usar find()
-  return undefined;
+  return items.find(item => item.id === id);
 };
 
 /**
@@ -144,10 +244,14 @@ const findById = (id) => {
  * @returns {Object[]} Nuevo array con la propiedad adicional
  */
 const addCalculatedProp = () => {
+  const taxRate = 0.19;
   // TODO: Usar map() para agregar una propiedad calculada
   // Ejemplos: priceWithTax, totalPages, formattedDuration
   // Recuerda: item => ({ ...item, newProp: calculation })
-  return [];
+  return items.map(item => ({
+    ...item,
+    priceWithTax: item.price + item.price * taxRate
+  }));
 };
 
 /**
@@ -158,7 +262,9 @@ const addCalculatedProp = () => {
 const sortByNumericProp = (ascending = true) => {
   // TODO: Usar [...items].sort() con un comparador
   // No mutar el array original
-  return [];
+  return [...items].sort((a, b) => {
+    return ascending ? a.price - b.price : b.price - a.price;
+  });
 };
 
 // ============================================
@@ -174,10 +280,23 @@ const buildReport = () => {
   console.log("=".repeat(50));
 
   // TODO: Mostrar cantidad total de elementos
+  console.log(`Total de elementos: ${items.length}`);
   // TODO: Mostrar cuántos están disponibles/activos
+  const disponibles = getAvailable();
+  console.log(`Disponibles       : ${disponibles.length}`);
   // TODO: Mostrar estadísticas de la propiedad numérica principal
+  calculateStats("price");
   // TODO: Listar todos los elementos ordenados (usar sortByNumericProp)
+  const sortedItems = sortByNumericProp(true);
+  console.log("\n📝 Lista de elementos ordenados por precio:");
+  sortedItems.forEach(item => {
+    console.log(`- ${item.name} (Precio: ${item.price})`);
+  });
   // TODO: Mostrar el elemento con el valor numérico más alto y más bajo
+  const maxPriceItem = sortedItems[sortedItems.length - 1];
+  const minPriceItem = sortedItems[0];
+  console.log(`\n💰 Elemento más caro : ${maxPriceItem.name} - ${maxPriceItem.price}`);
+  console.log(`💸 Elemento más barato: ${minPriceItem.name} - ${minPriceItem.price}`);
 
   console.log("=".repeat(50));
 };
@@ -191,12 +310,35 @@ console.log(`   Total de ${VALUE_LABEL}: ${items.length}`);
 
 // TODO: Llamar a las funciones implementadas en este orden:
 // 1. inspectItem(items[0])
+inspectItem(items[0]);
 // 2. calculateStats("nombreDeTuPropiedadNumerica")
+calculateStats("price");
 // 3. items.forEach(showWithOptionals)
+items.forEach(showWithOptionals)
 // 4. printAllProperties(items[0])
+printAllProperties(items[0]);
 // 5. Demostrar updateItem con un ejemplo
+const sofaActualizado = updateItem(items[0], { price: 1300000, color: "azul" });
+console.log("\n🛠️ Actualización inmutable:");
+console.log("Original:", items[0]);
+console.log("Actualizado:", sofaActualizado);
 // 6. Mostrar elementos disponibles con getAvailable()
+const disponibles = getAvailable();
+console.log("\n✅ Elementos disponibles:");
+disponibles.forEach(item => console.log(`- ${item.name}`));
 // 7. Demostrar findById con un id válido y uno inexistente
+console.log("\n🔎 Buscar por ID:");
+console.log("ID 1:", findById(1));
+console.log("ID 999:", findById(999));
 // 8. Mostrar addCalculatedProp()
+const itemsConPropCalculada = addCalculatedProp();
+console.log("\n💡 Propiedad calculada (priceWithTax):");
+itemsConPropCalculada.forEach(item => 
+  console.log(`${item.name} - Precio con IVA: ${item.priceWithTax}`)
+);
 // 9. Mostrar sortByNumericProp()
+console.log("\n📊 Elementos ordenados por precio (ascendente):");
+const ordenados = sortByNumericProp(true);
+ordenados.forEach(item => console.log(`${item.name} - ${item.price}`));
 // 10. buildReport()
+buildReport();

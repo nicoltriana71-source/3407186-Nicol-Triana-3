@@ -17,8 +17,8 @@
 // ============================================
 
 // TODO: Renombrar con el nombre de tu dominio (en inglés, UPPER_SNAKE_CASE)
-const DOMAIN_NAME = "Mi Aplicación";
-const VALUE_LABEL = "elementos";
+const DOMAIN_NAME = "Nicolasse";
+const VALUE_LABEL = "muebles";
 
 // TODO: Ajustar al límite razonable para tu dominio
 // Usa separadores numéricos (ES2021): 1_000, 10_000
@@ -46,25 +46,46 @@ const items = [
   // TODO: Reemplazar con objetos de tu dominio
   {
     id: 1,
-    name: "Elemento 1",
-    value: 100,
+    name: "Sofa moderno",
+    value: 860000,
     active: true,
-    category: "tipo-a",
+    category: "sala",
   },
   {
     id: 2,
-    name: "Elemento 2",
-    value: 200,
+    name: "Mesa de comedor",
+    value: 740000,
     active: true,
-    category: "tipo-b",
-    notes: "Propiedad opcional de ejemplo",
+    category: "comedor",
+    color: "cafe",
   },
   {
     id: 3,
-    name: "Elemento 3",
-    value: 150,
+    name: "Cama queen",
+    value: 1500000,
     active: false,
-    category: "tipo-a",
+    category: "dormitorio",
+  },
+  {
+    id: 4,
+    name: "Espejo de baño",
+    value: 120000,
+    active: false,
+    category: "baño",
+  },
+  {
+    id: 5,
+    name: "Sillon individual",
+    value: 320000,
+    active: true,
+    category: "sala",
+  },
+    {
+    id: 6,
+    name: "Estanteria de madera",
+    value: 400000,
+    active: true,
+    category: "comedor",
   },
   // TODO: Agregar al menos 3 objetos más (mínimo 6 en total)
 ];
@@ -80,8 +101,14 @@ const items = [
 const addItem = (item) => {
   // TODO: Implementar
   // 1. Verificar que no supere MAX_ITEMS (usar items.length)
+    if (items.length >= MAX_ITEMS) {
+    console.log(`⚠️ No se puede agregar más elementos. Límite alcanzado (${MAX_ITEMS})`);
+    return;
+  }
   // 2. Agregar el item al array con .push()
+  items.push(item);
   // 3. Mostrar confirmación con console.log y template literal
+  console.log(`✅ "${item.name}" agregado correctamente. Total de elementos: ${items.length}`);
 };
 
 /**
@@ -91,7 +118,7 @@ const addItem = (item) => {
  */
 const findById = (id) => {
   // TODO: Implementar usando .find()
-  return null;
+  return items.find(item => item.id === id);
 };
 
 /**
@@ -100,7 +127,7 @@ const findById = (id) => {
  */
 const getActive = () => {
   // TODO: Implementar usando .filter() con la propiedad booleana
-  return [];
+  return items.filter(item => item.inStock === true);
 };
 
 /**
@@ -111,7 +138,7 @@ const getActive = () => {
  */
 const filterByField = (field, value) => {
   // TODO: Implementar usando .filter()
-  return [];
+  return items.filter(item => item[field] === value);
 };
 
 // ============================================
@@ -127,9 +154,15 @@ const filterByField = (field, value) => {
 const updateItem = (id, changes) => {
   // TODO: Implementar
   // 1. Usar .map() para crear un nuevo array
+    return items.map(item => {
+    if (item.id === id) {
   // 2. Para el item con el id buscado: retornar { ...item, ...changes }
+  return { ...item, ...changes };
+    } else {
   // 3. Para los demás: retornar el item sin cambios
-  return items.map((item) => item); // reemplazar esta línea
+  return item;
+    }
+  });// reemplazar esta línea
 };
 
 /**
@@ -140,9 +173,19 @@ const updateItem = (id, changes) => {
 const calculateStats = (field) => {
   // TODO: Implementar
   // 1. Extraer los valores numéricos con Object.values o .map()
+  const values = items.map(item => item[field]);
   // 2. Calcular: min (Math.min), max (Math.max), avg (sum/length), total (sum)
+  const total = values.reduce((sum, val) => sum + val, 0);
   // Pista: const values = items.map(i => i[field]);
-  return { min: 0, max: 0, avg: 0, total: 0 };
+  const avg = values.length > 0 ? total / values.length : 0;
+  const min = values.length > 0 ? Math.min(...values) : 0;
+  const max = values.length > 0 ? Math.max(...values) : 0;
+  console.log(`\n📊 Estadísticas para: ${field}`);
+  console.log(`Total   : ${total}`);
+  console.log(`Promedio: ${avg.toFixed(2)}`);
+  console.log(`Mínimo  : ${min}`);
+  console.log(`Máximo  : ${max}`);
+  return { min, max, avg, total };
 };
 
 // ============================================
@@ -157,9 +200,21 @@ const calculateStats = (field) => {
 const formatItem = (item) => {
   // TODO: Implementar usando template literals
   // 1. Usar .padEnd() o .padStart() para alinear columnas
+
   // 2. Usar ?? y ?. para propiedades opcionales
+  const material = item.material ?? "N/A";
+  const color = item.color ?? "N/A";
+  const inStock = item.inStock ? "Sí" : "No";
+  const price = item.price ?? 0; // previene errores si price es undefined
+
+  const idStr = `[${item.id}]`.padEnd(6);
+  const nameStr = (item.name ?? "Sin nombre").padEnd(25);
+  const priceStr = `$${price.toLocaleString()}`.padStart(12);
+  const materialStr = material.padEnd(12);
+  const colorStr = color.padEnd(10);
+  const stockStr = inStock.padEnd(6);
   // 3. Retornar string (NO hacer console.log aquí)
-  return `[${item.id}] ${item.name}`;
+  return `${idStr} ${nameStr} ${priceStr} ${materialStr} ${colorStr} ${stockStr}`;
 };
 
 /**
@@ -169,14 +224,32 @@ const formatItem = (item) => {
 const buildReport = () => {
   // TODO: Implementar
   // 1. Cabecera: título del dominio con template literal
+  console.log(`\n📦 REPORTE DE ${DOMAIN_NAME.toUpperCase()}`);
+  console.log("=".repeat(60));
+
   // 2. Listado completo usando formatItem + forEach
+  console.log("\n📝 Lista completa de elementos:");
+  items.forEach(item => console.log(formatItem(item)));
   // 3. Sección de activos vs inactivos (getActive)
+  const activos = getActive();
+  const inactivos = items.length - activos.length;
+  console.log(`\n✅ Activos   : ${activos.length}`);
+  console.log(`❌ Inactivos : ${inactivos}`);
   // 4. Estadísticas con calculateStats para la propiedad numérica
+    calculateStats("price");
   // 5. Propiedades del primer elemento con Object.entries
+   if (items.length > 0) {
+    console.log("\n🔍 Propiedades del primer elemento:");
+    Object.entries(items[0]).forEach(([key, value]) => {
+      console.log(`${key.padEnd(12)} : ${value}`);
+    });
+  }
   // 6. Pie de reporte con conteo total
   console.log(`Reporte de ${DOMAIN_NAME}`);
   console.log("=".repeat(40));
   items.forEach((item) => console.log(formatItem(item)));
+  console.log("\nTotal de elementos en el catálogo:", items.length);
+  console.log("=".repeat(60));
 };
 
 // ============================================
@@ -193,33 +266,33 @@ console.log(`Total de ${VALUE_LABEL}: ${items.length} / ${MAX_ITEMS}`);
 console.log("");
 
 // Paso 1: Buscar por id
-// const found = findById(1);
-// console.log("Encontrado id=1:", found?.name ?? "no encontrado");
-// console.log("");
+ const found = findById(1);
+ console.log("Encontrado id=1:", found?.name ?? "no encontrado");
+ console.log("");
 
 // Paso 2: Listar activos
-// const active = getActive();
-// console.log(`Activos: ${active.length}`);
-// active.forEach(item => console.log(" ", formatItem(item)));
-// console.log("");
+ const active = getActive();
+ console.log(`Activos: ${active.length}`);
+ active.forEach(item => console.log(" ", formatItem(item)));
+ console.log("");
 
 // Paso 3: Filtrar por campo
-// const filtered = filterByField("category", "tipo-a");
-// console.log(`Filtro category=tipo-a: ${filtered.length} resultados`);
-// console.log("");
+ const filtered = filterByField("category", "tipo-a");
+ console.log(`Filtro category=tipo-a: ${filtered.length} resultados`);
+ console.log("");
 
 // Paso 4: Actualizar con spread
-// const updated = updateItem(1, { value: 999 });
-// console.log(`Actualizado id=1: value=${updated.find(i => i.id === 1)?.value}`);
-// console.log("");
+ const updated = updateItem(1, { value: 999 });
+ console.log(`Actualizado id=1: value=${updated.find(i => i.id === 1)?.value}`);
+ console.log("");
 
 // Paso 5: Estadísticas
-// const stats = calculateStats("value");
-// console.log(`Estadísticas (value): min=${stats.min} max=${stats.max} avg=${stats.avg.toFixed(2)}`);
-// console.log("");
+ const stats = calculateStats("value");
+ console.log(`Estadísticas (value): min=${stats.min} max=${stats.max} avg=${stats.avg.toFixed(2)}`);
+ console.log("");
 
 // Paso 6: Reporte completo
-// buildReport();
+ buildReport();
 
 // TODO: Agregar un nuevo elemento usando addItem
-// addItem({ id: 7, name: "Nuevo elemento", value: 300, active: true, category: "tipo-a" });
+ addItem({ id: 7, name: "Nuevo elemento", value: 300, active: true, category: "tipo-a" });
