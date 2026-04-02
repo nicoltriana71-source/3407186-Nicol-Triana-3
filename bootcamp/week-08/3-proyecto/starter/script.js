@@ -10,8 +10,8 @@
 // ============================================
 
 // ---- CONFIGURA TU DOMINIO ----
-const DOMAIN_NAME = "Mi Inventario"; // TODO: Cambiar por tu dominio
-const VALUE_LABEL = "elementos";     // TODO: Cambiar por unidad de tu dominio
+const DOMAIN_NAME = "Nicolasse"; // TODO: Cambiar por tu dominio
+const VALUE_LABEL = "precio";     // TODO: Cambiar por unidad de tu dominio
 
 // ============================================
 // 1. ARRAY INICIAL — Define tu inventario
@@ -32,8 +32,52 @@ const VALUE_LABEL = "elementos";     // TODO: Cambiar por unidad de tu dominio
 // Restaurante: { id, name, price, category, available: true }
 
 const items = [
-  // TODO: Agrega al menos 5 objetos de tu dominio
-];
+  {
+    id: 1,
+    name: "Sofa moderno",
+    category: "sala",
+    price: 860000,
+    quantity: 1,
+    inStock: true,
+    material: "cuero"
+  },
+  {
+    id: 2,
+    name: "Mesa de comedor",
+    category: "comedor",
+    price: 740000,
+    quantity: 1,
+    inStock: true,
+    material: "madera"
+  },
+  {
+    id: 3,
+    name: "Cama queen",
+    category: "dormitorio",
+    price: 1500000,
+    quantity: 1,
+    inStock: true,
+    material: "metal"
+  },
+  {
+    id: 4,
+    name: "Espejo de baño",
+    category: "baño",
+    price: 120000,
+    quantity: 1,
+    inStock: false,
+    material: "vidrio"
+  },
+  {
+    id: 5,
+    name: "Sillon individual",
+    category: "sala",
+    price: 320000,
+    quantity: 1,
+    inStock: true,
+    material: "tela"
+  }
+]; 
 
 // ============================================
 // 2. FUNCIONES DE GESTIÓN
@@ -44,8 +88,9 @@ const items = [
  * @param {Object} newItem - Elemento a agregar
  */
 const addItem = (newItem) => {
+  items.push(newItem);
   // TODO: Usar push para agregar newItem al array items
-  // console.log(`Agregado: ${newItem.name}`);
+  console.log(`Agregado: ${newItem.name}`);
 };
 
 /**
@@ -53,6 +98,14 @@ const addItem = (newItem) => {
  * @returns {Object} El elemento eliminado
  */
 const removeLastItem = () => {
+  const removedItem = items.pop();
+  if (removedItem) {
+    console.log(`Eliminado: ${removedItem.name}`);
+  } else {
+    console.log("⚠️ No hay elementos para eliminar");
+  }
+
+  return removedItem;
   // TODO: Usar pop para eliminar y retornar el último elemento
   // Guardar el resultado en una variable y mostrar el nombre
 };
@@ -62,8 +115,9 @@ const removeLastItem = () => {
  * @param {Object} priorityItem - Elemento a agregar con prioridad
  */
 const addPriorityItem = (priorityItem) => {
+  items.unshift(priorityItem);
   // TODO: Usar unshift para agregar priorityItem al inicio de items
-  // console.log(`Elemento prioritario agregado: ${priorityItem.name}`);
+  console.log(`Elemento prioritario agregado: ${priorityItem.name}`);
 };
 
 /**
@@ -71,6 +125,12 @@ const addPriorityItem = (priorityItem) => {
  * @param {number} index - Posición del elemento a eliminar
  */
 const removeByIndex = (index) => {
+  const removedItems = items.splice(index, 1);
+  if (removedItems.length > 0) {
+    console.log(`Eliminado: ${removedItems[0].name}`);
+  } else {
+    console.log("⚠️ Índice inválido");
+  }
   // TODO: Usar splice para eliminar 1 elemento en la posición index
   // Mostrar el nombre del elemento eliminado
 };
@@ -82,7 +142,7 @@ const removeByIndex = (index) => {
 const getActiveItems = () => {
   // TODO: Usar filter para retornar solo los elementos con la propiedad
   // booleana en true (ajusta el nombre de la propiedad a tu dominio)
-  return [];
+  return items.filter(item => item.inStock === true);
 };
 
 /**
@@ -92,7 +152,7 @@ const getActiveItems = () => {
  */
 const findByName = (name) => {
   // TODO: Usar find para retornar el primer elemento cuyo name coincida
-  return null;
+  return items.find(item => item.name === name);
 };
 
 /**
@@ -105,7 +165,7 @@ const formatItem = (item) => {
   // Usar template literals y mostrar las propiedades más importantes
   // Ejemplo (adaptar al dominio):
   // return `[${item.id}] ${item.name} — ...propiedades...`;
-  return `[${item.id}] ${item.name}`;
+  return `[${item.id}] ${item.name} | ${item.category} | $${item.price} | Stock: ${item.inStock}`;
 };
 
 // ============================================
@@ -124,6 +184,27 @@ items.forEach((item) => {
 });
 
 console.log("\n--- Operaciones de mutación ---\n");
+addItem({
+  id: 6,
+  name: "Mesa de noche",
+  category: "dormitorio",
+  price: 200000,
+  quantity: 1,
+  inStock: true,
+  material: "madera"
+});
+
+addPriorityItem({
+  id: 0,
+  name: "Sofá premium",
+  category: "sala",
+  price: 2500000,
+  quantity: 1,
+  inStock: true,
+  material: "cuero"
+});
+removeByIndex(2);
+removeLastItem();
 
 // TODO: Crear un nuevo elemento de tu dominio y usar addItem para agregarlo
 // Ejemplo: addItem({ id: 6, name: "Nuevo Elemento", ..., active: true });
@@ -143,6 +224,22 @@ items.forEach((item) => {
 });
 
 console.log("\n--- Búsqueda y filtrado ---\n");
+const snapshot = [...items, {
+  id: 999,
+  name: "Producto extra",
+  category: "decoración",
+  price: 100000,
+  quantity: 1,
+  inStock: true,
+  material: "plástico"
+}];
+
+console.log("Snapshot:", snapshot.length);
+const encontrado = findByName("Sofa moderno");
+console.log("🔍 Encontrado:", encontrado);
+
+const activos = getActiveItems();
+console.log(`✅ Activos: ${activos.length}`);
 
 // TODO: Usar find para buscar un elemento específico por nombre
 // Mostrar el resultado
@@ -152,6 +249,14 @@ console.log("\n--- Búsqueda y filtrado ---\n");
 // TODO: Crear un snapshot inmutable con spread [...items]
 // y agregar un elemento extra sin modificar items
 console.log("\n--- Transformación con map ---\n");
+const preciosConDescuento = items.map(item => ({
+  name: item.name,
+  precioFinal: Math.round(item.price * 0.9)
+}));
+
+console.log(preciosConDescuento);
+const nombres = items.map(item => item.name);
+console.log("📝 Nombres:", nombres);
 
 // TODO: Usar map para crear un array de solo los nombres de los elementos
 // Mostrar los nombres

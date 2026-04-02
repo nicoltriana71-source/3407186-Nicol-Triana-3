@@ -26,9 +26,12 @@
 // Ejemplo: const TAX_RATE = 0.19;
 //          const CURRENCY = "USD";
 //          const DOMAIN_NAME = "Mi Dominio";
-const DOMAIN_NAME = "Mi Dominio";
-const VALUE_LABEL = "valor"; // Ej: "precio", "cantidad", "duración"
-
+const DOMAIN_NAME = "Nicolasse";
+const VALUE_LABEL = "precio"; // Ej: "precio", "cantidad", "duración"
+const CURRENCY = "COP";
+const TAX_RATE = 0.19;
+const SHIPPING_COST = 30000;
+const FREE_SHIPPING_MIN = 3000000;
 // TODO: Define un array con al menos 5 elementos de tu dominio.
 // Cada elemento debe ser un objeto con propiedades relevantes.
 // Ejemplo (Biblioteca):
@@ -38,6 +41,14 @@ const VALUE_LABEL = "valor"; // Ej: "precio", "cantidad", "duración"
 //   ...
 // ];
 const items = [
+  { id: 1, name: "Sofa moderno", category: "sala", price: 860000, quantity: 1, stock: 5 },
+  { id: 2, name: "Mesa de comedor", category: "comedor", price: 740000, quantity: 1, stock: 3 },
+  { id: 3, name: "Cama queen", category: "dormitorio", price: 1500000, quantity: 1, stock: 2 },
+  { id: 4, name: "Espejo de baño", category: "baño", price: 120000, quantity: 1, stock: 0 },
+  { id: 5, name: "Sillon individual", category: "sala", price: 320000, quantity: 1, stock: 4 },
+  { id: 6, name: "Armario doble", category: "dormitorio", price: 630000, quantity: 1, stock: 1 }
+
+
   // TODO: Agrega tus elementos aquí
 ];
 
@@ -58,11 +69,15 @@ const items = [
 //   `💊 ${medicine.name} — Stock: ${medicine.stock} — $${medicine.price}`;
 
 const formatItem = (item) => {
+  return `🪑 ${item.name} [${item.category}] — $${item.price}`;
+};
+const formatItemDetalle = (item) => {
+  return `🛋️ Producto: ${item.name} | Categoría: ${item.category} | Precio: $${item.price}`;
   // TODO: Implementar usando template literals
   // 1. Incluir el nombre del elemento
   // 2. Incluir la categoría o tipo
   // 3. Incluir el valor numérico relevante
-  return `${item.name}`; // TODO: Expandir este template
+ // TODO: Expandir este template
 };
 
 // ============================================
@@ -80,9 +95,9 @@ const formatItem = (item) => {
 // const calculateValue = (price, quantity, discountPct = 0) =>
 //   +(price * quantity * (1 - discountPct / 100)).toFixed(2);
 
-const calculateValue = (baseValue, factor = 1) => {
+const calculateValue = (price, quantity, tax = 0.19) => {
   // TODO: Implementar el cálculo relevante para tu dominio
-  return baseValue * factor;
+  return price * quantity * (1 + tax);
 };
 
 // ============================================
@@ -103,7 +118,7 @@ const calculateValue = (baseValue, factor = 1) => {
 
 const isValid = (item) => {
   // TODO: Implementar la condición de validez de tu dominio
-  return item.active === true;
+  return item.stock > 0;
 };
 
 // ============================================
@@ -121,11 +136,9 @@ const isValid = (item) => {
 // const formatPrice = (price, currency = "USD", showTax = false) =>
 //   showTax ? `${currency} ${(price * 1.19).toFixed(2)}` : `${currency} ${price.toFixed(2)}`;
 
-const formatWithDefault = (value, label = VALUE_LABEL, currency = "") => {
+const formatWithDefault = (price, label = "Precio", currency = "COP") => {
   // TODO: Implementar con parámetros por defecto relevantes al dominio
-  return currency
-    ? `${label}: ${currency} ${value}`
-    : `${label}: ${value}`;
+  return `${label}: ${currency} ${price}`;
 };
 
 // ============================================
@@ -172,9 +185,9 @@ if (items.length === 0) {
   let totalValue = 0;
   for (const item of items) {
     // TODO: Usa calculateValue() con las propiedades de tu item
-    totalValue += calculateValue(item.value ?? 0);
+    totalValue += calculateValue(item.price, item.quantity);
   }
-  console.log(formatWithDefault(totalValue, `Total ${VALUE_LABEL}`));
+  console.log(formatWithDefault(totalValue, `Total de la compra ${VALUE_LABEL}`));
 }
 
 console.log(`\n${"═".repeat(45)}\n`);
