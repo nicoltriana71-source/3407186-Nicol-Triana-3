@@ -204,8 +204,8 @@ const formatItem = (item) => {
   // 2. Usar ?? y ?. para propiedades opcionales
   const material = item.material ?? "N/A";
   const color = item.color ?? "N/A";
-  const inStock = item.inStock ? "Sí" : "No";
-  const price = item.price ?? 0; // previene errores si price es undefined
+  const inStock = item.active ? "Sí" : "No";
+  const price = item.value ?? 0; // previene errores si price es undefined
 
   const idStr = `[${item.id}]`.padEnd(6);
   const nameStr = (item.name ?? "Sin nombre").padEnd(25);
