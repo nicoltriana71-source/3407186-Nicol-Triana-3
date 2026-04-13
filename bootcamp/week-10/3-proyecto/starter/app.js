@@ -127,7 +127,7 @@ const findById = (id) => {
  */
 const getActive = () => {
   // TODO: Implementar usando .filter() con la propiedad booleana
-  return items.filter(item => item.inStock === true);
+  return items.filter(item => item.active === true);
 };
 
 /**
